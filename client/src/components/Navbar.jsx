@@ -51,7 +51,7 @@ const Navbar = ({ setShowLogin }) => {
       </div>
 
       <button
-        className="sm:hidden cursor-pointer"
+        className="md:hidden cursor-pointer"
         onClick={() => setOpen(!open)}
       >
         <img src={open ? assets.close_icon : assets.menu_icon} alt="menu" />
