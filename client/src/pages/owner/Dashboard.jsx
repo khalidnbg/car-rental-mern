@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { assets, dummyDashboardData } from "../../assets/assets.js";
-import Title from "../../components/Title.jsx";
+import Title from "../../components/owner/Title.jsx";
 
 const Dashboard = () => {
   const currency = import.meta.env.VITE_CURRENCY;
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   return (
     <div className="px-4 pt-10 md:px-10 flex-1">
-      <Title title="Admin Dashboard" subTitle="Welcome to your dashboard" />
+      <Title title="Admin Dashboard" subtitle="Welcome to your dashboard" />
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-8 max-w-3xl">
         {dashboardCards.map((card, index) => (
