@@ -1,13 +1,35 @@
 import { useState } from "react";
+import { useAppContext } from "../context/AppContext";
 
-const Login = ({ setShowLogin }) => {
+const Login = () => {
   const [state, setState] = useState("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
+  const { setShowLogin, axios, setToken, navigate, toast, user, setUser } =
+    useAppContext();
+
+  const onSubmitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const { data } = await axios.post(`/api/user/${state}`, {
+        name,
+        email,
+        password,
+      });
+
+      if (data.success) {
+        navigate("/");
+        setToken(data.token);
+        localStorage.setItem("token", data.token);
+        setShowLogin(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -64,7 +86,7 @@ const Login = ({ setShowLogin }) => {
             Already have account?{" "}
             <span
               onClick={() => setState("login")}
-              className="text-proutline-primary cursor-pointer"
+              className="text-primary cursor-pointer"
             >
               click here
             </span>
@@ -74,7 +96,7 @@ const Login = ({ setShowLogin }) => {
             Create an account?{" "}
             <span
               onClick={() => setState("register")}
-              className="text-proutline-primary cursor-pointer"
+              className="text-primary cursor-pointer"
             >
               click here
             </span>

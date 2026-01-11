@@ -69,7 +69,7 @@ export const AppProvider = ({ children }) => {
       axios.defaults.headers.common["Authorization"] = `${token}`;
       fetchUser();
     }
-  }, []);
+  }, [token]);
 
   const value = {
     navigate,
@@ -92,6 +92,7 @@ export const AppProvider = ({ children }) => {
     setPickupDate,
     returnDate,
     setReturnDate,
+    toast,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
