@@ -7,8 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setShowLogin, axios, setToken, navigate, toast, user, setUser } =
-    useAppContext();
+  const { setShowLogin, axios, setToken, navigate, toast } = useAppContext();
 
   const onSubmitHandler = async (e) => {
     try {

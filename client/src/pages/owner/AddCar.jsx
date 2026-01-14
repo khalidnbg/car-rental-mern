@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Title from "../../components/owner/Title";
 import { assets } from "../../assets/assets.js";
+import { useAppContext } from "../../context/AppContext.jsx";
+import toast from "react-hot-toast";
 
 const AddCar = () => {
-  const currency = import.meta.env.VITE_CURRENCY;
+  const { axios, currency } = useAppContext();
 
   const [image, setImage] = useState(null);
   const [car, setCar] = useState({
@@ -18,8 +20,44 @@ const AddCar = () => {
     location: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    if (isLoading) return null;
+
+    setIsLoading(true);
+
+    try {
+      const formaData = new FormData();
+      formaData.append("image", image);
+      formaData.append("carData", JSON.stringify(car));
+
+      const { data } = await axios.post("/api/owner/add-car", formaData);
+
+      if (data.success) {
+        toast.success(data.message);
+        setImage(null);
+        setCar({
+          brand: "",
+          model: "",
+          year: 0,
+          pricePerDay: 0,
+          category: "",
+          transmission: "",
+          fuel_type: "",
+          seating_capacity: 0,
+          location: "",
+        });
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -199,10 +237,10 @@ const AddCar = () => {
             value={car.location}
           >
             <option value="">Select Location</option>
-            <option value="New York">New York</option>
-            <option value="Los Angeles">Los Angeles</option>
-            <option value="Chicago">Chicago</option>
-            <option value="Houston">Houston</option>
+            <option value="New York">Casablanca</option>
+            <option value="Los Angeles">Rabat</option>
+            <option value="Chicago">Tangier</option>
+            <option value="Houston">Marrakech</option>
           </select>
         </div>
 
@@ -227,7 +265,7 @@ const AddCar = () => {
           className="flex items-center bg-primary gap-2 px-4 py-2.5 text-white rounded-md font-medium w-max cursor-pointer"
         >
           <img src={assets.tick_icon} alt="" />
-          List You Car
+          {isLoading ? "Listing..." : "List You Car"}
         </button>
       </form>
     </div>
