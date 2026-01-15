@@ -18,6 +18,7 @@ const corsOptions = {
     "http://localhost:3000",
     "http://localhost:5173",
     "https://car-rental-beta-peach.vercel.app", // <-- add this
+    "https://car-rental-khalid-nabgaoui.vercel.app",
     "https://car-rental-62hl9mlq1-khalid-nabgaoui.vercel.app",
     "https://car-rental.vercel.app",
   ],
