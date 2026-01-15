@@ -15,13 +15,14 @@ await connectDB();
 // Configure CORS to allow specific origins
 const corsOptions = {
   origin: [
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'https://car-rental-beta-peach.vercel.app', // Your deployed frontend
-    'https://car-rental.vercel.app' // In case you have another deployment
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "https://car-rental-beta-peach.vercel.app", // <-- add this
+    "https://car-rental-62hl9mlq1-khalid-nabgaoui.vercel.app",
+    "https://car-rental.vercel.app",
   ],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 // Middleware
