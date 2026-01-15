@@ -28,6 +28,7 @@ const corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json()); // all req will be parse to json
 
 // Routes
