@@ -28,7 +28,9 @@ const corsOptions = {
     if (allowedOrigins.has(origin)) return callback(null, true);
 
     const isVercelPreview =
-      /^https:\/\/car-rental-[a-z0-9-]+-khalid-nabgaoui\.vercel\.app$/i.test(origin);
+      /^https:\/\/car-rental-[a-z0-9-]+-khalid-nabgaoui\.vercel\.app$/i.test(
+        origin
+      );
 
     if (isVercelPreview) return callback(null, true);
 
@@ -49,6 +51,13 @@ app.use("/api/user", userRouter);
 app.use("/api/owner", ownerRouter);
 app.use("/api/booking", bookingRouter);
 
+app.use((req, res, next) => {
+  res.setHeader("X-Debug-Origin", req.headers.origin || "none");
+  next();
+});
+
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`server is running on port : ${PORT}`));
+if (process.env.VERCEL !== "1") {
+  app.listen(PORT, () => console.log(`server is running on port : ${PORT}`));
+}
