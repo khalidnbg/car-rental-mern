@@ -12,8 +12,20 @@ const app = express();
 // connect db
 await connectDB();
 
+// Configure CORS to allow specific origins
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://car-rental-beta-peach.vercel.app', // Your deployed frontend
+    'https://car-rental.vercel.app' // In case you have another deployment
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json()); // all req will be parse to json
 
 // Routes
