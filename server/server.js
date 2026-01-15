@@ -13,15 +13,27 @@ const app = express();
 await connectDB();
 
 // Configure CORS to allow specific origins
+const allowedOrigins = new Set([
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://car-rental-beta-peach.vercel.app",
+  "https://car-rental-khalid-nabgaoui.vercel.app",
+  "https://car-rental.vercel.app",
+]);
+
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://car-rental-beta-peach.vercel.app", // <-- add this
-    "https://car-rental-khalid-nabgaoui.vercel.app",
-    "https://car-rental-62hl9mlq1-khalid-nabgaoui.vercel.app",
-    "https://car-rental.vercel.app",
-  ],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allows Postman/server-to-server
+
+    if (allowedOrigins.has(origin)) return callback(null, true);
+
+    const isVercelPreview =
+      /^https:\/\/car-rental-[a-z0-9-]+-khalid-nabgaoui\.vercel\.app$/i.test(origin);
+
+    if (isVercelPreview) return callback(null, true);
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`), false);
+  },
   credentials: true,
   optionsSuccessStatus: 200,
 };
